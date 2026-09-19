@@ -1,0 +1,155 @@
+---
+title: "AupticlientUI Architecture"
+description: "Overview of the AupticlientUI tech stack, directory structure, and architectural patterns. The React 19 + TypeScript client portal uses Vite, Zustand, SWR, and OTP-based auth with lazy-loaded routes."
+sidebarTitle: "Architecture"
+---
+
+AupticlientUI is a React 19 + TypeScript client portal built with Vite. It serves the Auptimate Client Portal, where users create investment Vehicles (Deals), invite investors, manage compliance, sign documents, and track the investment lifecycle. This page explains the tech stack, key directories, and the patterns that keep the codebase consistent.
+
+## Tech stack
+
+<CardGroup cols={2}>
+  <Card title="React 19 + TypeScript" icon="code">
+    UI layer with strict TypeScript and ESNext target.
+  </Card>
+
+  <Card title="Vite 6" icon="bolt">
+    Build tool with fast HMR, route-based code splitting, and HTTPS dev server.
+  </Card>
+
+  <Card title="Tailwind CSS" icon="paintbrush">
+    Utility-first styling with a custom design system.
+  </Card>
+
+  <Card title="Zustand" icon="database">
+    Lightweight global state for auth, theme, locale, and navigation.
+  </Card>
+
+  <Card title="React Hook Form + Zod" icon="check-circle">
+    Form state and validation with schema-driven rules.
+  </Card>
+
+  <Card title="SWR" icon="rotate">
+    Server-state caching, revalidation, and mock fallback.
+  </Card>
+
+  <Card title="React Router v6" icon="route">
+    Declarative routing with lazy loading and route guards.
+  </Card>
+
+  <Card title="Axios" icon="server">
+    HTTP client with request/response interceptors.
+  </Card>
+
+  <Card title="TanStack Table" icon="table">
+    Headless data tables with sorting, filtering, and pagination.
+  </Card>
+
+  <Card title="TipTap" icon="pen">
+    Rich text editor for content editing.
+  </Card>
+
+  <Card title="ApexCharts" icon="chart-line">
+    Interactive charts for dashboards and reports.
+  </Card>
+
+  <Card title="aws-amplify" icon="cloud">
+    AWS integration for authentication helpers and services.
+  </Card>
+
+  <Card title="AWS CloudWatch" icon="eye">
+    Structured logging via `@aws-sdk/client-cloudwatch-logs`.
+  </Card>
+
+  <Card title="Persona" icon="id-card">
+    Identity verification flows embedded in compliance workflows.
+  </Card>
+</CardGroup>
+
+## Directory structure
+
+All source code lives under `src/`. The project uses the `@/` alias for imports.
+
+```text
+src/
+  @types/          # TypeScript type definitions (auth, user, deal, entity, etc.)
+  auth/            # Authentication context, providers, and hooks with OTP flow
+  components/
+    layouts/       # Layout components (AuthLayout, PostLoginLayout)
+    route/         # Route protection and navigation components
+    shared/        # Reusable business components (DataTable, Charts, etc.)
+    template/      # Template-specific components (Header, Navigation, Theme)
+    ui/            # Core UI component library with hooks and utilities
+  configs/         # App, routing, theme, endpoint, and logging configuration
+  constants/       # Domain-specific constants (deal, auth, logging, etc.)
+  mock/            # API mocking infrastructure with fake data and endpoints
+  services/        # API service layer with AxiosBase and service classes
+  store/           # Zustand stores (auth, theme, locale, routes)
+  utils/           # Utility functions, custom hooks, and validation schemas
+  views/           # Application pages organized by feature modules
+    auth/          # OTP sign-in, sign-up, password reset pages
+    accounts/      # User profile and entity management
+    dashBoard/     # Main dashboard with tasks and overview
+    deals/         # Deal creation, listing, and detailed management
+    documents/     # Document listing, viewing, and signing
+    funds/         # Fund list views
+    help/          # Help center and support tickets
+    legal/         # Legal pages
+    others/        # Miscellaneous pages (AccessDenied)
+```
+
+## Key architectural patterns
+
+### Route-based code splitting
+
+Every route is lazy-loaded with `React.lazy()`. The router splits the bundle automatically so users only download the code for the page they visit.
+
+```typescript
+{
+  key: 'deals',
+  path: '/deals',
+  component: lazy(() => import('@/views/deals/List/index')),
+  authority: [],
+}
+```
+
+### API mocking by default
+
+The app imports the mock module when `appConfig.enableMock` is `true`. During development, `axios-mock-adapter` intercepts requests and returns fake data so the UI can be built without a running backend.
+
+```typescript
+if (appConfig.enableMock) {
+  import('./mock')
+}
+```
+
+### OTP-based authentication
+
+The portal uses one-time password verification instead of traditional passwords. In development, auth is automatically bypassed. In production, tokens are persisted according to `appConfig.accessTokenPersistStrategy` (`localStorage`, `sessionStorage`, or `cookies`).
+
+### State management layers
+
+| Layer | Tool | Purpose |
+| --- | --- | --- |
+| Global UI state | Zustand | Theme, locale, navigation, auth session |
+| Form state | React Hook Form | Field values, validation, submission |
+| Server state | SWR | Caching, revalidation, deduplication |
+| Local component state | `useState` / `useReducer` | Component-specific UI |
+
+### Import alias
+
+Always use the `@/` alias for internal imports:
+
+```typescript
+import { Button } from '@/components/ui'
+import { useAuth } from '@/auth'
+import { apiSignUp } from '@/services/AuthService'
+```
+
+## Authentication flow
+
+1. The user enters their email and requests an OTP.
+2. The OTP is verified via `AuthService`.
+3. On success, the session is stored in the Zustand auth store and persisted according to the configured strategy.
+4. Route guards in `components/route/` check the session and redirect unauthenticated users to the sign-in page.
+5. In development, the `authenticated` flag is hardcoded to `true` so protected routes render immediately.

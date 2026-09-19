@@ -1,80 +1,49 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: "Quickstart: Create Your First Deal"
+sidebarTitle: "Quickstart"
+description: "Sign in to the Auptimate Client Portal, complete your profile, create a vehicle, invite investors, and sign documents. A five step walkthrough for new users."
 ---
 
-## Get started in three steps
+This quickstart takes you from signing in to inviting investors on your first deal in the Auptimate Client Portal. Each step links to a deeper guide if you want more detail.
 
-Get your documentation site running locally and make your first customization.
+<Steps>
+  <Step title="Sign in with a one-time code">
+    Go to [app.auptimate.com](https://app.auptimate.com) and enter your email. Auptimate sends a one-time code to your inbox. Enter the code to start your session.
 
-### Step 1: Set up your local environment
+    See [Sign In with OTP](/getting-started/sign-in) for details on session length and account recovery.
+  </Step>
+  <Step title="Complete your profile">
+    Open your profile from the account menu and add your personal details, contact info, and any investment entities you plan to invest through.
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+    See [Manage Your Profile](/account/profile) and [Manage Investment Entities](/account/entities).
+  </Step>
+  <Step title="Create a vehicle">
+    From the Deals area, click **Create** and fill in each section of the vehicle form: basic details, structure, terms, and logo. Save the vehicle when the required sections are complete.
 
-### Step 2: Deploy your changes
+    See [Create a New Deal](/deals/create).
+  </Step>
+  <Step title="Invite investors">
+    Open your new deal, go to the investors area, and send invites by email. Invitees can accept as an individual or as one of their registered entities.
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+    See [Invite Investors to a Deal](/deals/investors).
+  </Step>
+  <Step title="Sign documents">
+    Once investors confirm their commitment, subscription documents appear in the Documents tab. Click **Click to Sign** on each document to complete signing inline.
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+    See [Sign Documents Online](/documents/sign).
+  </Step>
+</Steps>
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 3: Go live
-
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
-
-## Next steps
-
-Now that you have your docs running, explore these key features:
+## What's next
 
 <CardGroup cols={2}>
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
+<Card title="Compliance Checks" icon="shield-check" href="/deals/compliance">
+  Run KYC and identity verification on investors before you confirm their investment.
 </Card>
 
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
+<Card title="Manage a Deal" icon="briefcase" href="/deals/manage">
+  Learn the deal detail tabs: Details, Investments, Documents, Compliance, and Operate.
 </Card>
 
 </CardGroup>
-
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>

@@ -1,0 +1,121 @@
+---
+title: "Code Conventions and Review Rules"
+description: "Naming, file layout, import alias, and code review rules for the AupticlientUI codebase. Follow these conventions to keep the React 19 + TypeScript project consistent and maintainable."
+sidebarTitle: "Conventions"
+---
+
+This page collects the naming standards, file layout rules, and code review guidelines used across the AupticlientUI codebase. Following them keeps pull requests small, types accurate, and the codebase easy to navigate.
+
+## Naming conventions
+
+| Category | Rule | Examples |
+| --- | --- | --- |
+| Feature folders | camelCase | `auth/`, `profile/`, `dashBoard/` |
+| Component folders | PascalCase | `AuthLayout/`, `DataTable/` |
+| Component files | PascalCase.tsx | `SignIn.tsx`, `DealList.tsx` |
+| Service files | PascalCase.ts | `AuthService.ts`, `DealService.ts` |
+| Utility / hook / store files | camelCase.ts | `useAuth.ts`, `themeStore.ts` |
+| Constants | SCREAMING_SNAKE_CASE | `API_PREFIX`, `DEFAULT_TIMEOUT` |
+| Types / interfaces | PascalCase | `User`, `DealPayload`, `AuthState` |
+| Variables / functions | camelCase | `const userId`, `function fetchDeals()` |
+
+## Import alias
+
+Use the `@/` alias for every internal import. Do not use relative paths that cross multiple directories.
+
+```typescript
+// Good
+import { Button } from '@/components/ui'
+import { useAuth } from '@/auth'
+import { apiSignUp } from '@/services/AuthService'
+
+// Avoid
+import { Button } from '../../../components/ui'
+```
+
+## New feature file layout
+
+When you add a feature, follow this directory pattern:
+
+```text
+src/views/[moduleName]/[FeatureName]/
+```
+
+For example:
+
+```text
+src/views/accounts/Profile/
+src/views/deals/Details/
+```
+
+Required files for a new feature:
+
+- **Types** in `src/@types/[featureName].ts`
+- **Constants** in `src/constants/[featureName].constant.ts`
+- **Service** in `src/services/[FeatureName]Service.ts`
+- **Mock data** in `src/mock/data/[featureName]Data.ts`
+- **Validation schema** in `src/utils/validation/[featureName].ts` (or co-located `*.schema.ts`)
+
+## Code review rules
+
+<AccordionGroup>
+  <Accordion title="Side effects belong in useEffect">
+    Never trigger side effects (for example, setting redirect state or writing to refs with visible consequences) directly during the render phase. Move them into a `useEffect` or `useLayoutEffect` so they fire after the render commits.
+  </Accordion>
+
+  <Accordion title="Include every dependency in useEffect and useCallback">
+    Always include every variable used inside a `useEffect` or `useCallback` in its dependency array. Omitting stable references like logger functions or derived IDs causes stale-closure bugs and lint warnings.
+  </Accordion>
+
+  <Accordion title="Remove unused imports and variables immediately">
+    Delete unused imports, variables, and query params as soon as they are no longer needed. Do not leave dead code behind after a refactor.
+  </Accordion>
+
+  <Accordion title="Avoid unnecessary optional parameters">
+    Do not mark function parameters as optional (`?`) when all callers always provide a value. Unnecessary optionality weakens type safety and generates defensive null-checks throughout the codebase.
+  </Accordion>
+
+  <Accordion title="Await async clipboard and browser APIs">
+    Always `await` `navigator.clipboard.writeText()` and other async browser APIs. Wrap them in `try/catch` and show a user-facing error notification on failure.
+  </Accordion>
+
+  <Accordion title="Null-guard required IDs before rendering or submitting">
+    Before rendering a component that depends on a required ID (for example, `vehicleId`), or before calling a service, assert the value is non-null and return `null` or show a toast if it is missing. Do not fall back to a magic value like `?? 0`.
+  </Accordion>
+
+  <Accordion title="Extract shared utilities over inline ternaries">
+    When the same conditional logic (for example, Cayman share class or subclass derivation) appears in more than one place, extract it into a named utility in `src/views/deals/Details/utils/vehicleUtils.ts` and import it everywhere. Prefer named functions over inline ternaries for business logic that has a domain meaning.
+  </Accordion>
+
+  <Accordion title="Keep Zod schemas in *.schema.ts files">
+    Keep Zod validation schemas in their own `*.schema.ts` file, co-located with the feature. Do not inline schemas inside helper or calculator files. Export the inferred `z.infer<>` type from the schema file so other files import the type from there instead of re-declaring it.
+  </Accordion>
+
+  <Accordion title="Do not duplicate type aliases">
+    Do not duplicate type shapes (for example, `InvestorInviteType`) in utility or helper files when the canonical type is already exported from the schema file. Import and use the schema type directly.
+  </Accordion>
+
+  <Accordion title="Expose conditional behaviour via props">
+    Expose conditional behaviour through explicit boolean props (for example, `allowCreateEntity`, `isReviewMode`) rather than hardcoding assumptions inside a component. Default the prop to the most common case so existing callers need no changes.
+  </Accordion>
+
+  <Accordion title="Omit unused catch parameters">
+    If the caught error value is not used in the `catch` block, write `catch {` instead of `catch (err) {` to avoid the unused-variable lint warning.
+  </Accordion>
+
+  <Accordion title="Use minimal stable useEffect dependencies">
+    When a `useEffect` triggers a fetch, ensure its dependency array contains only the minimal stable set. Do not include query-param variables (for example, `currentTab`, `currentNav`) unless the fetch result genuinely differs based on those values.
+  </Accordion>
+
+  <Accordion title="Split components that exceed ~200 lines">
+    When a component file exceeds roughly 200 lines, look for self-contained sub-components or helper functions that can be extracted into a co-located file. A good split point is a named inner component plus any pure helper functions it exclusively uses. Move them together into `FeatureName.tsx` next to the parent file, export the component as default, and import it in the parent. The parent file should be left with only orchestration logic (state, URL params, data fetching, top-level layout).
+  </Accordion>
+
+  <Accordion title="Use enums instead of raw string comparisons">
+    Never compare against raw string literals for domain values that have a fixed set of options (for example, nav tabs, document types, statuses, option types). Declare an enum in `src/constants/deal.constant.ts` (or the relevant constants file for the domain) and reference the enum members everywhere the value is read, compared, or written. This prevents typo bugs that fail silently at runtime.
+  </Accordion>
+
+  <Accordion title="Sanitize all data before logging to CloudWatch">
+    Never log raw API response bodies or form payloads directly to CloudWatch. These can contain PII (names, dates of birth, addresses, document numbers) and violate GDPR and compliance requirements. Always pass response data and form data through `sanitizeLogData` from `@/utils/logging/sanitizeDataForLogging` before including it in any CloudWatch log call. Serialize the sanitized result with `JSON.stringify` when spreading into an `EventPayload` to satisfy the type constraint: `JSON.stringify(sanitizeLogData(data as Record<string, unknown>))`. Do not substitute logging only the `message` field, because this loses the `errors` object which contains the field-level detail needed for debugging validation failures.
+  </Accordion>
+</AccordionGroup>

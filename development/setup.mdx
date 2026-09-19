@@ -1,0 +1,117 @@
+---
+title: "Local Development Setup"
+description: "Set up the AupticlientUI codebase locally with Node.js 18+, mkcert HTTPS certificates, and the Vite dev server. API mocking is enabled by default so you can develop without a running backend."
+sidebarTitle: "Setup"
+---
+
+Get the Auptimate Client Portal running on your machine in minutes. The project uses Vite with automatic HTTPS when certificates are present, and all API calls are mocked by default so you do not need a backend to start developing.
+
+## Prerequisites
+
+Before you begin, make sure you have the following installed:
+
+- **Node.js** 18 or higher
+- **npm** or **yarn**
+
+## Installation
+
+<Steps>
+  <Step title="Clone the repository">
+    Clone the repo and change into the project directory.
+  </Step>
+  <Step title="Install dependencies">
+    Run the install command for your package manager:
+
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
+  </Step>
+  <Step title="Generate SSL certificates">
+    The dev server prefers HTTPS on port 5173. Generate local certificates with mkcert so browsers trust the connection.
+
+    <CodeGroup>
+
+    ```bash macOS
+    brew install mkcert
+    mkcert -install
+    mkcert localhost
+    ```
+
+    ```bash Windows
+    choco install mkcert
+    mkcert -install
+    mkcert localhost
+    ```
+
+    ```bash Linux
+    sudo apt install libnss3-tools
+    wget -O mkcert https://dl.filippo.io/mkcert/latest?for=linux/amd64
+    chmod +x mkcert
+    sudo mv mkcert /usr/local/bin/
+    mkcert -install
+    mkcert localhost
+    ```
+
+    </CodeGroup>
+
+    Running `mkcert localhost` from the project root creates two files:
+
+    - `localhost.pem`
+    - `localhost-key.pem`
+
+    <Tip>
+      If the certificate files are missing, Vite automatically falls back to HTTP and prints a console message. You can still develop without them.
+    </Tip>
+  </Step>
+  <Step title="Start the dev server">
+    Launch the development server:
+
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+
+    The application will be available at:
+
+    - **HTTPS**: `https://localhost:5173` (when certificates are present)
+    - **HTTP**: `http://localhost:5173` (fallback when certificates are missing)
+  </Step>
+</Steps>
+
+## What happens out of the box
+
+- **API mocking** is enabled by default via `axios-mock-adapter`. The app loads mock handlers for auth, common, and document endpoints, so you can build UI features without a live backend.
+- **Authentication is bypassed** in development. The app sets `authenticated = true` when `VITE_ENVIRONMENT` is `development`, so protected routes render immediately.
+- **Proxy configuration**: API requests under `/api` are proxied to `https://localhost:7104` in development. Because mocking is on, most requests never reach the proxy.
+
+## Available scripts
+
+| Script | Purpose |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server |
+| `npm run build` | Production build |
+| `npm run preview` | Preview the production build |
+| `npm run lint` | Run ESLint |
+| `npm run lint:fix` | Fix ESLint issues automatically |
+| `npm run prettier` | Check Prettier formatting |
+| `npm run prettier:fix` | Fix Prettier formatting automatically |
+| `npm run format` | Run both Prettier and ESLint fixes |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Port 5173 is already in use">
+    Vite will prompt you to use the next available port. Press `y` to accept, or set a custom port with the `--port` flag.
+  </Accordion>
+
+  <Accordion title="HTTPS shows a certificate warning">
+    Make sure you ran `mkcert -install` to add the local CA to your system trust store. On some Linux distributions you may need to restart the browser after installing the CA.
+  </Accordion>
+
+  <Accordion title="API calls return 404 in dev">
+    Check that `appConfig.enableMock` is `true` in `src/configs/app.config.ts`. If you disabled mocking, ensure the backend is running and the proxy target is reachable.
+  </Accordion>
+</AccordionGroup>
