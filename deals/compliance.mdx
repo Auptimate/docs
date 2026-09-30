@@ -1,3 +1,82 @@
 ---
-title: "compliance"
+title: "Compliance Checks and CDD Records"
+sidebarTitle: "Compliance"
+description: "The Compliance Hub in the Auptimate Client Portal collects KYC, identity verification, and screening results for every investor on a deal before their investment is confirmed."
 ---
+
+Every investor on an Auptimate deal completes Customer Due Diligence (CDD) before their investment is confirmed. The **Compliance Hub** is where fund operators review each investor's CDD records: personal information, verification documents, screening results, and downloadable reports.
+
+## When compliance runs
+
+<Steps>
+  <Step title="Investor is invited">
+    You send an invite from the Operate tab. The investor's status is **Invited**.
+  </Step>
+  <Step title="Investor completes verification">
+    The investor completes identity verification, provides supporting documents, and answers CDD questions. Their status moves to **Verified**.
+  </Step>
+  <Step title="You review in Compliance Hub">
+    You open Compliance Hub for that investor, review the records, and download reports if required.
+  </Step>
+  <Step title="Investment is confirmed">
+    Once compliance is satisfactory and the investor confirms their commitment, they move to **Confirmed** and can start signing.
+  </Step>
+</Steps>
+
+## Open the Compliance Hub
+
+<Steps>
+  <Step title="Open a deal and go to Operate">
+    Select your deal, then click **Operate** in the sidebar.
+  </Step>
+  <Step title="Open an investor's compliance record">
+    Click **Compliance** on any participant row. The Compliance Hub opens in place of the Operate view, and the sidebar stays highlighted on Operate.
+  </Step>
+  <Step title="Choose a profile">
+    If the investor invests through multiple profiles (for example, both individually and through an entity), use the profile selector at the top to switch between them.
+  </Step>
+</Steps>
+
+<Tip>
+  To return to the participant list, clear the `cdd` query parameter or click **Back** at the top of the Compliance Hub.
+</Tip>
+
+## What's inside the Compliance Hub
+
+The hub has two tabs:
+
+### Information
+
+The **Information** tab shows the investor's or entity's CDD profile: personal details, tax residency, source of funds, PEP and sanctions status, and any structured KYC data collected during onboarding.
+
+### Documents
+
+The **Documents** tab lists every supporting file the investor uploaded (proof of identity, proof of address, entity constitutional documents, and so on). Click any document to view or download it.
+
+## Downloadable reports
+
+From the top of the Compliance Hub you can download the standard compliance reports for the selected profile:
+
+- **CDD Pack**: consolidated PDF of all CDD information and documents
+- **eIDV Report**: electronic identity verification report from the ID check provider
+- **Screening Report**: PEP, sanctions, and adverse media screening results
+
+<Warning>
+  Compliance actions are restricted to Fund Operators for the deal. If you get a permission error, confirm your role on the deal.
+</Warning>
+
+## If something goes wrong
+
+If a download fails or the hub does not load, a **"An error has occurred. Contact customer support."** notification appears. Reload the page and try again, and if the issue persists, [open a support ticket](/support/help-center).
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Invite Investors" icon="user-plus" href="/deals/investors">
+    See where compliance sits in the investor journey.
+  </Card>
+
+  <Card title="Manage a Deal" icon="briefcase" href="/deals/manage">
+    Learn about the other tabs available inside a deal.
+  </Card>
+</CardGroup>

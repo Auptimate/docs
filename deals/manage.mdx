@@ -1,3 +1,92 @@
 ---
-title: "manage"
+title: "Manage a Deal: Detail View Tabs"
+sidebarTitle: "Manage"
+description: "Every deal in the Auptimate Client Portal opens into a five-tab detail view: Investment Details, Deal Details, Vehicle Details, Documents, and Operate. Here's what each does."
 ---
+
+Opening a deal from your list takes you into the detail view. A sidebar on the left navigates between five tabs, and the header shows the current deal status (Draft, Under Review, Open, Closing, or Closed). This page explains what each tab is for.
+
+## The five tabs
+
+<CardGroup cols={2}>
+  <Card title="Investment Details" icon="coins">
+    Your personal investment summary in this deal.
+  </Card>
+
+  <Card title="Deal Details" icon="file-lines">
+    The deal summary that everyone on the deal can see.
+  </Card>
+
+  <Card title="Vehicle Details" icon="lock">
+    The legal structure of the SPV or vehicle.
+  </Card>
+
+  <Card title="Documents" icon="folder-open">
+    All documents attached to the deal, split by category.
+  </Card>
+
+  <Card title="Operate" icon="newspaper">
+    Fund operator view: investor progress, allocations, invites.
+  </Card>
+</CardGroup>
+
+## Investment Details
+
+The **Investment Summary** tab is where you (as an investor participant) track your own commitment: allocation, total amount payable, fees, and payment status. If you are a fund operator, use the Operate tab for the full participant list instead.
+
+## Deal Details
+
+The **Deal summary** shows the core deal information you filled in during creation: the startup entity, business, fundraising round, instrument, and headline amounts. This view is shared with every participant.
+
+## Vehicle Details
+
+The **Vehicle Details** tab surfaces the legal structure of the SPV or fund vehicle: jurisdiction, base currency, subscription type, financial year end, and management or performance fees where applicable.
+
+## Documents
+
+The Documents tab groups files into three categories, each selectable from a dropdown:
+
+- **Deal Documents**: agreements specific to this deal (term sheet, subscription agreement)
+- **Vehicle Documents**: constitutional documents for the SPV
+- **Other Documents**: supporting files uploaded by the operator
+
+See [Manage Deal Documents](/documents/overview) for how documents flow into a deal and how signing works.
+
+## Operate
+
+The **Operate** tab is the fund operator's control panel for the deal. From here you can:
+
+- View overall metrics (total raised, total payable, allocation charts)
+- See every participant's status (Invited, Verified, Confirmed, Signed, Paid) in a single table
+- Filter amounts shown between **Total Amount Payable** and **Allocation**
+- Send new investor invites through the **Invite investor** drawer
+- Toggle vehicle visibility settings (for example, the public deal page)
+- Open the **Compliance Hub** for any investor to review their CDD records
+
+<Note>
+  When you open the Compliance Hub for an investor, the sidebar stays on Operate. Clearing the `cdd` query parameter returns you to the participant list.
+</Note>
+
+## Deal status header
+
+The badge next to the deal name reflects its current lifecycle status. Available actions in Operate change based on this status: for example, invites can only be sent while the deal is **Open**.
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Invite Investors" icon="user-plus" href="/deals/investors">
+    Configure allocations, fees, and email invites.
+  </Card>
+
+  <Card title="Compliance Checks" icon="shield-check" href="/deals/compliance">
+    Review KYC and identity verification for each investor.
+  </Card>
+
+  <Card title="Sign Documents" icon="file-signature" href="/documents/sign">
+    Complete signing inline for deal documents.
+  </Card>
+
+  <Card title="Share Public Page" icon="link" href="/deals/public-page">
+    Publish a public link for prospective investors.
+  </Card>
+</CardGroup>
