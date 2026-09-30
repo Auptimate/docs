@@ -105,5 +105,13 @@
   "appearance": {
     "default": "light",
     "strict": true
+  },
+  "fonts": {
+    "heading": {
+      "family": "Raleway"
+    },
+    "body": {
+      "family": "Raleway"
+    }
   }
 }
