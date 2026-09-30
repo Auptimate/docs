@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "palm",
   "name": "Auptimate Client Portal",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#E61B72",
+    "light": "#F28DB8",
+    "dark": "#C11760"
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -98,5 +98,8 @@
     "socials": {
       "linkedin": "https://linkedin.com/company/auptimate"
     }
+  },
+  "icons": {
+    "library": "fontawesome"
   }
 }
