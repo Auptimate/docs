@@ -7,7 +7,10 @@
     "light": "#F28DB8",
     "dark": "#C11760"
   },
-  "favicon": "/favicon.svg",
+  "favicon": {
+    "light": "/images/Auptimate-logo-RGB_icon.png",
+    "dark": "/favicon.svg"
+  },
   "navigation": {
     "tabs": [
       {
@@ -76,8 +79,9 @@
     ]
   },
   "logo": {
-    "light": "/images/Auptimate-logo-RGB_icon.jpg",
-    "dark": "/logo/dark.svg"
+    "light": "/images/Auptimate-logo-RGB_hori-color.png",
+    "dark": "/logo/dark.svg",
+    "href": "https://portal.auptimate.com/home"
   },
   "navbar": {
     "primary": {
