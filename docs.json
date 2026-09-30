@@ -87,7 +87,7 @@
     "primary": {
       "type": "button",
       "label": "Sign In",
-      "href": "https://app.auptimate.com"
+      "href": "https://portal.auptimate.com"
     }
   },
   "contextual": {
