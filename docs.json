@@ -100,7 +100,8 @@
   },
   "footer": {
     "socials": {
-      "linkedin": "https://linkedin.com/company/auptimate"
+      "linkedin": "https://linkedin.com/company/auptimate",
+      "website": "https://auptimate.com/"
     }
   },
   "icons": {
