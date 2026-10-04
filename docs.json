@@ -62,19 +62,6 @@
             ]
           }
         ]
-      },
-      {
-        "tab": "Developers",
-        "groups": [
-          {
-            "group": "Development",
-            "pages": [
-              "development/setup",
-              "development/architecture",
-              "development/conventions"
-            ]
-          }
-        ]
       }
     ]
   },
